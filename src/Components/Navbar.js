@@ -21,14 +21,6 @@ import { useCalendarContext } from "../context/CalendarContext";
 const Navbar = () => {
   const { monthIndex, setMonthIndex, setShowEventModal } = useCalendarContext();
 
-  const handlePrevMonth = () => {
-    setMonthIndex(monthIndex - 1);
-  };
-
-  const handleNextMonth = () => {
-    setMonthIndex(monthIndex + 1);
-  };
-
   return (
     <AppBar position="static" color="transparent" sx={{ boxShadow: "none" }}>
       <Toolbar
@@ -41,7 +33,7 @@ const Navbar = () => {
         <Stack direction="row">
           <IconButton>
             <img
-              style={{ width: "40px", height: "40px" }}
+              style={{ width: "35px", height: "35px" }}
               src="https://ssl.gstatic.com/calendar/images/dynamiclogo_2020q4/calendar_27_2x.png"
               alt="calendar"
             />
@@ -62,10 +54,10 @@ const Navbar = () => {
           <Button onClick={() => setShowEventModal(true)}>
             <img src={icon} alt="add icon" />
           </Button>
-          <IconButton onClick={handlePrevMonth}>
+          <IconButton onClick={() => setMonthIndex(monthIndex - 1)}>
             <ChevronLeftIcon />
           </IconButton>
-          <IconButton onClick={handleNextMonth}>
+          <IconButton onClick={() => setMonthIndex(monthIndex - 1)}>
             <ChevronRightIcon />
           </IconButton>
           <Typography

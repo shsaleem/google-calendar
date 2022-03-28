@@ -1,11 +1,21 @@
 import React from "react";
-import styled from "styled-components";
+import { makeStyles } from "@mui/styles";
 
 import Day from "./Day";
 
+const useStyles = makeStyles({
+  month: {
+    display: "grid",
+    flex: "1",
+    gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
+    gridTemplateRows: "repeat(5, minmax(0, 1fr))",
+  },
+});
+
 const Month = ({ month }) => {
+  const classes = useStyles();
   return (
-    <Wrapper>
+    <main className={classes.month}>
       {month.map((row, idx) => {
         return (
           <React.Fragment key={idx}>
@@ -15,15 +25,8 @@ const Month = ({ month }) => {
           </React.Fragment>
         );
       })}
-    </Wrapper>
+    </main>
   );
 };
-
-const Wrapper = styled.div`
-  display: grid;
-  flex: 1 1 0%;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  grid-template-rows: repeat(5, minmax(0, 1fr));
-`;
 
 export default Month;

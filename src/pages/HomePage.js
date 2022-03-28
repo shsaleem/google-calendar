@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import { makeStyles } from "@mui/styles";
 
 import getMonth from "../utils";
 import Navbar from "../Components/Navbar";
@@ -7,7 +7,21 @@ import Month from "../Components/Month";
 import { useCalendarContext } from "../context/CalendarContext";
 import Modal from "../Components/Modal";
 
+const useStyles = makeStyles({
+  home: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100vh",
+  },
+
+  month: {
+    display: "flex",
+    flex: "1",
+  },
+});
+
 const HomePage = () => {
+  const classes = useStyles();
   const [currentMonth, setCurrentMonth] = useState(getMonth());
   const { monthIndex, showEventModal } = useCalendarContext();
 
@@ -18,25 +32,14 @@ const HomePage = () => {
   return (
     <>
       {showEventModal && <Modal />}
-      <Wrapper>
+      <div className={classes.home}>
         <Navbar />
-        <div className="month">
+        <div className={classes.month}>
           <Month month={currentMonth} />
         </div>
-      </Wrapper>
+      </div>
     </>
   );
 };
-
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  .month {
-      display: flex;
-      flex: 1 1 0%;
-    }
-  }
-`;
 
 export default HomePage;

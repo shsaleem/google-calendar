@@ -1,11 +1,49 @@
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { Box, Typography } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 import { useCalendarContext } from "../context/CalendarContext";
 
+const useStyles = makeStyles({
+  day: {
+    display: "flex",
+    flexDirection: "column",
+    border: "1px solid #e5e7eb",
+  },
+
+  header: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+
+  event: {
+    padding: "4px",
+    marginBottom: "4px",
+    color: "#fff",
+    fontSize: "14px",
+    overflow: "hidden",
+    borderRadius: "4px",
+    marginRight: "8px",
+  },
+  rows: {
+    padding: "5px",
+    margin: "5px 0",
+    fontSize: "12px",
+    textAlign: "center",
+  },
+  currentDate: {
+    backgroundColor: "#2563eb",
+    width: "24px",
+    height: "24px",
+    color: "#fff",
+    borderRadius: "50%",
+  },
+});
+
 const Day = ({ day, rowIdx }) => {
+  const classes = useStyles();
   const [currentDateEvents, setCurrentDateEvents] = useState([]);
   const { setShowEventModal, setSelectedDay, savedEvents, setSelectedEvent } =
     useCalendarContext();
@@ -19,18 +57,24 @@ const Day = ({ day, rowIdx }) => {
   }, [savedEvents, day]);
 
   return (
-    <Wrapper>
-      <header>
+    <Box className={classes.day}>
+      <header className={classes.header}>
         {rowIdx === 0 && (
-          <Typography variant="p" className="first-row">
+          <Typography variant="p" fontSize="14px">
             {day.format("dddd").toUpperCase()}
           </Typography>
         )}
         <Typography
           variant="p"
-          className={`rows ${
+          sx={{
+            padding: "5px",
+            margin: "5px 0",
+            fontSize: "12px",
+            textAlign: "center",
+          }}
+          className={`${
             day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
-              ? "current-date"
+              ? `${classes.currentDate}`
               : ""
           }`}
         >
@@ -38,7 +82,7 @@ const Day = ({ day, rowIdx }) => {
         </Typography>
       </header>
       <Box
-        style={{
+        sx={{
           flex: "1 1 0%",
           cursor: "pointer",
         }}
@@ -50,56 +94,21 @@ const Day = ({ day, rowIdx }) => {
         {currentDateEvents.map((event, index) => {
           return (
             <Box
-              style={{
-                padding: "4px",
-                marginBottom: "4px",
-                color: "#fff",
-                fontSize: "14px",
-                overflow: "hidden",
-                borderRadius: "4px",
+              className={classes.event}
+              sx={{
                 backgroundColor: `${event.color}`,
-                opacity: 0.6,
+                opacity: 0.8,
               }}
               key={index}
-              className="event"
               onClick={() => setSelectedEvent(event)}
             >
-              {event.title}
+              {event.title} at {event.time}
             </Box>
           );
         })}
       </Box>
-    </Wrapper>
+    </Box>
   );
 };
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #e5e7eb;
-  header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .first-row {
-      font-size: 14px;
-    }
-    .rows {
-      padding: 5px;
-      margin: 5px 0;
-      font-size: 12px
-      text-align: center;
-    }
-  }
-
-  .current-date {
-    background-color: #2563eb;
-    width: 24px;
-    height: 24px;
-    color: #fff;
-    border-radius: 50%;
-  }
-
-`;
 
 export default Day;

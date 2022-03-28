@@ -37,9 +37,9 @@ const AppProvider = ({ children }) => {
         setShowEventModal,
         selectedDay,
         setSelectedDay,
-        dispatch,
-        savedEvents,
         selectedEvent,
+        savedEvents,
+        dispatch,
         setSelectedEvent,
       }}
     >
